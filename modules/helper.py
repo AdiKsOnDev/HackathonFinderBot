@@ -5,16 +5,12 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 
 URL = 'https://lablab.ai/event'
-HEADERS = {
 
-    'Accept': '*/*',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
-
-} 
-
-def check_for_hackathons(url, headers):
+def get_hackathons(url):
     """_summary_
     """
+    hackathons = {}
+
     # Request the html code of the page
     driver = webdriver.Chrome()
     driver.get(url)
@@ -35,6 +31,16 @@ def check_for_hackathons(url, headers):
 
         if on_going.string == "Register":
             hackathon_name = card.find('h2').string
+            hackathon_url = "https://lablab.ai" + card.find('a')['href']
+
+            hackathons[hackathon_name] = hackathon_url
+
+            print(hackathon_url)
+    
+    with open("hackathons.json", "w") as outfile:
+        json.dump(hackathons, outfile)
+    
+    return hackathons
 
 if __name__ == "__main__":
-    check_for_hackathons(url=URL, headers=HEADERS)
+    get_hackathons(url=URL)
