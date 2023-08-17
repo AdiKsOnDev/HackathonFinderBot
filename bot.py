@@ -1,4 +1,7 @@
 import os
+import json
+
+import modules.helper as helper
 
 import discord
 from discord.ext import commands
@@ -14,16 +17,22 @@ INTENTS.message_content = True
 bot = commands.Bot(command_prefix='$', intents=INTENTS)
 
 @bot.command(name="scan")
-async def scan(ctx, arg):
-    await ctx.send(arg)
+async def scan(ctx):
+    print(f'{bot.user} got an order to Scan.\n')
 
-    for guild in bot.guilds:
-        if guild.name == GUILD:
-            break
+    try:
+        with open('hackathons.json', "r") as json_file:
+            old_hackathons = json.load(json_file)
+    except Exception as e:
+        old_hackathons = {}
+    
+    new_hackathons = helper.get_hackathons(helper.URL)
 
-    print(
-        f'{bot.user} is connected to the following guild:\n'
-        f'{guild.name} (ID: {guild.id})'
-    )
+    if new_hackathons == old_hackathons:
+        await ctx.send("No new Hackathons.")
+    else:
+        for name in new_hackathons:
+            if name not in old_hackathons:
+                await ctx.send(new_hackathons[name])
 
 bot.run(TOKEN)
