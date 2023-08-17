@@ -1,3 +1,5 @@
+import json
+
 import lxml
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -21,14 +23,18 @@ def check_for_hackathons(url, headers):
     soup = BeautifulSoup(driver.page_source, 'lxml')
 
     # Create the list of available Hackathons
-    hackathon_cards = soup.find(
+    hackathon_cards = soup.find_all(
             'div', 
             {
                 'class': 'card-animation card-border card-shadow relative flex h-full flex-col overflow-hidden rounded-lg bg-white'
             }
         )
+    
+    for card in hackathon_cards:
+        on_going = card.find('span')
 
-    return hackathon_cards.prettify()
+        if on_going.string == "Register":
+            hackathon_name = card.find('h2').string
 
 if __name__ == "__main__":
-    print(check_for_hackathons(url=URL, headers=HEADERS))
+    check_for_hackathons(url=URL, headers=HEADERS)
