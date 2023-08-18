@@ -7,18 +7,25 @@ from selenium import webdriver
 URL = 'https://lablab.ai/event'
 
 def get_hackathons(url):
-    """_summary_
-    """
+    """Gets the list of upcoming Hackathons
+
+    Args:
+        url (str): The url of 'LabLabAI'
+
+    Returns:
+        Dictionary: The dictionary containing 'name': 'url' of upcoming Hackathons
+    """    
+
     hackathons = {}
 
-    # Request the html code of the page
+    # Get the html code of the page
     driver = webdriver.Chrome()
     driver.get(url)
 
     # 'Cook' the soup 
     soup = BeautifulSoup(driver.page_source, 'lxml')
 
-    # Create the list of available Hackathons
+    # Find the list of available Hackathons
     hackathon_cards = soup.find_all(
             'div', 
             {
@@ -29,6 +36,7 @@ def get_hackathons(url):
     for card in hackathon_cards:
         on_going = card.find('span')
 
+        # Check if the Hackathon is finished
         if on_going.string == "Register":
             hackathon_name = card.find('h2').string
             hackathon_url = "https://lablab.ai" + card.find('a')['href']
