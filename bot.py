@@ -19,7 +19,7 @@ bot = commands.Bot(command_prefix='$', intents=INTENTS)
 async def scan(ctx):
     """ Checks if there's a new hacakthon
 
-    Checks 'hackathons.json', gets list of on-going hackathons
+    Checks 'hackathons.json', gets list of upcoming hackathons
     using `helper.get_hackathons()` and compares the two. Then
     sends the hackathon links that are not in hackathons.json to
     the server.
@@ -38,7 +38,7 @@ async def scan(ctx):
         # If there is no 'hackathons.json' file created:
         old_hackathons = {}
     
-    # Get the list of on-going hackathons
+    # Get the list of upcoming hackathons
     new_hackathons = helper.get_hackathons(helper.URL)
 
     if new_hackathons == old_hackathons:
