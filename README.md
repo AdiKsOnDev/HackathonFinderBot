@@ -4,8 +4,9 @@ HackathonFinderBot is a Discord bot designed to help users stay updated on the l
 
 ## Commands 📜
 
-$scan: HackathonFinderBot checks LabLabAI for new Hackathons and sends the URL's for them.
-Stay Updated:
+- $scan: HackathonFinderBot checks LabLabAI for new Hackathons and sends the URL's for them.
+
+## Contribute:
 
 If you encounter any issues while using HackathonFinderBot or have suggestions for improvements, please feel free to create an Issue and contribute to this repository.
 
